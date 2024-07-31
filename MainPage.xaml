@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="MauiArcGISMVVM.MainPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013"
+             xmlns:local="clr-namespace:MauiArcGISMVVM"
+             xmlns:mauitoolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:toolkit="clr-namespace:Esri.ArcGISRuntime.Toolkit.Maui;assembly=Esri.ArcGISRuntime.Toolkit.Maui"
+             x:DataType="local:MapViewModel">
+
+    <Grid ColumnDefinitions="*, auto">
+        <esri:MapView x:Name="MyMapView"
+                      Grid.ColumnSpan="2"
+                      toolkit:GeoViewController.GeoViewController="{Binding Controller}"
+                      Map="{Binding Map}">
+            <esri:MapView.Behaviors>
+                <mauitoolkit:EventToCommandBehavior x:TypeArguments="esri:GeoViewInputEventArgs"
+                                                    Command="{Binding GeoViewTappedCommand}"
+                                                    EventName="GeoViewTapped" />
+            </esri:MapView.Behaviors>
+        </esri:MapView>
+        <Border Grid.Column="1"
+                Margin="20"
+                Padding="10"
+                BackgroundColor="{AppThemeBinding Dark=Black,
+                                                  Default=White}"
+                HorizontalOptions="Center"
+                IsVisible="{Binding IsMapLoaded}"
+                VerticalOptions="Start">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="10" />
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="5" WidthRequest="250">
+                <Picker x:Name="RegionPicker"
+                        Title="Scope to region"
+                        SelectedItem="{Binding SelectedRegion}">
+                    <Picker.Behaviors>
+                        <mauitoolkit:EventToCommandBehavior Command="{Binding SelectedRegionChangedCommand}"
+                                                            CommandParameter="{Binding Source={x:Reference RegionPicker}, Path=SelectedIndex}"
+                                                            EventName="SelectedIndexChanged" />
+                    </Picker.Behaviors>
+                    <Picker.Items>
+                        <x:String>North</x:String>
+                        <x:String>South</x:String>
+                        <x:String>East</x:String>
+                        <x:String>West</x:String>
+                        <x:String>Central</x:String>
+                    </Picker.Items>
+                </Picker>
+                <HorizontalStackLayout>
+                    <Label Margin="0,0,10,0"
+                           Text="Clustering"
+                           VerticalOptions="Center" />
+                    <Switch IsToggled="{Binding EnableClustering}" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+                <Button Command="{Binding LegendButtonPressedCommand}" Text="{Binding LegendButtonText}" />
+                <esri:Legend GeoView="{x:Reference MyMapView}"
+                             HeightRequest="400"
+                             IsVisible="{Binding ShowLegend}" />
+            </VerticalStackLayout>
+        </Border>
+        <StackLayout Grid.RowSpan="2"
+                     Grid.ColumnSpan="2"
+                     HorizontalOptions="Fill"
+                     IsVisible="{Binding ShowErrorMessage}"
+                     VerticalOptions="Fill">
+            <Label HorizontalOptions="Center"
+                   Text="{Binding ErrorMessage}"
+                   VerticalOptions="Center" />
+        </StackLayout>
+        <Grid Grid.RowSpan="2"
+              Grid.ColumnSpan="2"
+              BackgroundColor="Grey"
+              IsVisible="{Binding GettingTappedCluster}"
+              Opacity="0.7"
+              RowDefinitions="*,auto,auto,*">
+            <Label Grid.Row="1"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   IsVisible="{Binding GettingTappedCluster}"
+                   Text="Loading tapped cluster..."
+                   TextColor="Black" />
+            <ActivityIndicator Grid.Row="2"
+                               HeightRequest="100"
+                               IsRunning="{Binding GettingTappedCluster}"
+                               WidthRequest="100" />
+        </Grid>
+    </Grid>
+</ContentPage>

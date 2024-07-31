@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="MauiArcGISMVVM.GeoElementSelectionPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MauiArcGISMVVM"
+             Title="GeoElementSelectionPage"
+             x:DataType="local:MapViewModel"
+             Shell.PresentationMode="Modal">
+    <Grid Margin="5,0,5,5" RowDefinitions="auto,auto,*,auto">
+        <HorizontalStackLayout Grid.Row="0" Margin="0,10,0,0">
+            <Label Padding="10,5,10,5"
+                   FontAttributes="Bold"
+                   Text="{Binding GeoElementSelectedLabel}" />
+        </HorizontalStackLayout>
+        <Grid Grid.Row="1"
+              Margin="10,5"
+              ColumnSpacing="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*" />
+                <ColumnDefinition Width="0.1*" />
+                <ColumnDefinition Width="0.15*" />
+                <ColumnDefinition Width="0.4*" />
+                <ColumnDefinition Width="0.25*" />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0"
+                   FontAttributes="Bold"
+                   Text="#" />
+            <Label Grid.Column="1"
+                   FontAttributes="Bold"
+                   Text="fid" />
+            <Label Grid.Column="2"
+                   FontAttributes="Bold"
+                   Text="Religion" />
+            <Label Grid.Column="3"
+                   FontAttributes="Bold"
+                   Text="Name" />
+            <Label Grid.Column="4"
+                   FontAttributes="Bold"
+                   Text="Lat/Lon" />
+        </Grid>
+        <CollectionView x:Name="GeoElementsCollectionView"
+                        Grid.Row="2"
+                        Margin="10,5"
+                        HorizontalOptions="FillAndExpand"
+                        ItemsSource="{Binding GeoElementsToDisplay}"
+                        ItemsUpdatingScrollMode="KeepScrollOffset"
+                        RemainingItemsThreshold="5"
+                        RemainingItemsThresholdReachedCommand="{Binding LoadMoreCommand}"
+                        SelectionChangedCommand="{Binding SelectedGeoElementChangedCommand}"
+                        SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}"
+                        SelectionMode="Single"
+                        VerticalOptions="FillAndExpand">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="local:PlaceOfWorshipViewModel">
+                    <Grid ColumnSpacing="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.1*" />
+                            <ColumnDefinition Width="0.1*" />
+                            <ColumnDefinition Width="0.15*" />
+                            <ColumnDefinition Width="0.4*" />
+                            <ColumnDefinition Width="0.25*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0"
+                               LineBreakMode="TailTruncation"
+                               Text="{Binding DisplayIndex}" />
+                        <Label Grid.Column="1"
+                               LineBreakMode="TailTruncation"
+                               Text="{Binding Fid}" />
+                        <Label Grid.Column="2"
+                               LineBreakMode="TailTruncation"
+                               Text="{Binding Religion}" />
+                        <Label Grid.Column="3"
+                               LineBreakMode="TailTruncation"
+                               Text="{Binding Name}" />
+                        <Label Grid.Column="4"
+                               LineBreakMode="TailTruncation"
+                               Text="{Binding FormattedCoordinates}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.Footer>
+                <ActivityIndicator HeightRequest="50"
+                                   IsRunning="{Binding LoadingMoreItems}"
+                                   WidthRequest="50" />
+            </CollectionView.Footer>
+        </CollectionView>
+        <Button Grid.Row="3"
+                Command="{Binding CloseModalPageCommand}"
+                Text="Close" />
+    </Grid>
+</ContentPage>
