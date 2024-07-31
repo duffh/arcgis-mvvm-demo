@@ -2,6 +2,8 @@
 
 A .NET MAUI application that demonstrates MVVM patterns in an ArcGIS Maps SDK for .NET application.
 
+This app is featured in an [ArcGIS blog post](https://www.esri.com/arcgis-blog/products/sdk-net/developers/using-arcgis-maps-sdk-for-net-in-an-mvvm-pattern/) which gives more details and background on MVVM, along with context of how the app was built
+
 ### To get started:
 1. Ensure that your system meets the [System requirements](https://developers.arcgis.com/net/reference/system-requirements/) for ArcGIS Maps SDK for .NET.
 1. Clone this repo to your local machine.
