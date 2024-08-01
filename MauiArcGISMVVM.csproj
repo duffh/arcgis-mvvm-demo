@@ -63,8 +63,8 @@
     <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
     <PackageReference Include="CommunityToolkit.Maui" Version="8.0.1" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-    <PackageReference Include="Esri.ArcGISRuntime.Maui" Version="200.4.0" />
-    <PackageReference Include="Esri.ArcGISRuntime.Toolkit.Maui" Version="200.4.0" />
+    <PackageReference Include="Esri.ArcGISRuntime.Maui" Version="200.5.0" />
+    <PackageReference Include="Esri.ArcGISRuntime.Toolkit.Maui" Version="200.5.0" />
 	</ItemGroup>
 	
 	<!-- Apple Privacy Manifest file, more information: https://aka.ms/maui-privacy-manifest -->
